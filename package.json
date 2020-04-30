@@ -8,6 +8,7 @@
 		"@testing-library/user-event": "^7.1.2",
 		"axios": "^0.19.2",
 		"http-proxy-middleware": "^1.0.3",
+		"netlify-lambda": "^1.6.3",
 		"node-sass": "^4.14.0",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
@@ -24,7 +25,11 @@
 		"build-project-prod": "concurrently \"npm run build-server\" \"npm run build\"",
 		"build-server": "npm run server --prefix backend",
 		"build-client": "yarn start",
-		"build": "react-scripts build"
+		"build": "react-scripts build",
+		"start:lambda": "netlify-lambda serve backend",
+		"build:lambda": "netlify-lambda build backend",
+		"start:app": "yarn start",
+		"build:app": "yarn build"
 	},
 	"eslintConfig": {
 		"extends": "react-app"

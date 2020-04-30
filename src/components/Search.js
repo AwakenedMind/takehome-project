@@ -123,8 +123,9 @@ const Search = () => {
 				setHasFetched(true);
 			} else {
 				const res = await axios.get(
-					`https://frontend-engineer-challenge.netlify.app/api/tweets${tickers}`
+					`/.netlify/functions/server/api/tweets${tickers}`
 				);
+
 				console.log(res);
 				setTweets((prevTweets) => [...prevTweets, ...res.data.messages]);
 				setHasFetched(true);

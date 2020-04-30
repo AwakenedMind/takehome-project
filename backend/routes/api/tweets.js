@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
 const { SYMBOLS_STREAM_URL } = require('../../utils/constants');
@@ -18,7 +20,6 @@ router.get('/tweets:id', async (req, res) => {
 		return res.json(response.data);
 	} catch (err) {
 		console.error(err);
-		// return err;
 	}
 });
 
