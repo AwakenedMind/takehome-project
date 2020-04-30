@@ -21,8 +21,10 @@
 		"eject": "react-scripts eject",
 		"client": "npm start --prefix client",
 		"build-project": "concurrently \"npm run build-server\" \"npm run build-client\"",
+		"build-project-prod": "concurrently \"npm run build-server\" \"npm run build-client-prod\"",
 		"build-server": "npm run server --prefix backend",
-		"build-client": "yarn start"
+		"build-client": "yarn start",
+		"build-client-prod": "yarn build"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
