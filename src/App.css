@@ -1,0 +1,47 @@
+body {
+	margin: 0;
+	padding: 0;
+	color: white;
+	font-family: Raleway;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	--primaryBlack: #2a2d36;
+	--darkBlack: #101115;
+
+	--primaryGradient: linear-gradient(
+		to right top,
+		#de6161,
+		#f17a44,
+		#ef9e1c,
+		#d9c500,
+		#a8eb12
+	);
+}
+
+.grad-text {
+	background-image: linear-gradient(
+		to right top,
+		#de6161,
+		#f17a44,
+		#ef9e1c,
+		#d9c500,
+		#a8eb12
+	);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.hide {
+	display: none;
+	visibility: hidden;
+}
+
+.show {
+	display: block;
+	visibility: visible;
+}

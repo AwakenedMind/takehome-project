@@ -1,13 +1,14 @@
-import React from 'react'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
-import Landing from './components/pages/Landing'
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Landing from './components/pages/Landing';
+import './App.css';
 
 const App = () => {
-    return (
-        <Router>
-            <Route path="/" exact component={Landing} />
-        </Router>
-    )
-}
+	return (
+		<Router>
+			<Route path="/" exact component={Landing} />
+		</Router>
+	);
+};
 
-export default App
+export default App;
