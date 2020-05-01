@@ -116,6 +116,7 @@ const Landing = () => {
 	*/
 	const fetchTweets = async () => {
 		let tickers = list.join(',');
+		if (!tickers.length > 0) return;
 		setIsLoading(true);
 		try {
 			const res = await axios.get(
