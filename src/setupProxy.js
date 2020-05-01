@@ -1,4 +1,4 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { proxy } = require('http-proxy-middleware');
 
 module.exports = function (app) {
 	// Production
@@ -8,12 +8,12 @@ module.exports = function (app) {
 		})
 	);
 
-	// Development
-	app.use(
-		'/api',
-		createProxyMiddleware({
-			target: 'http://localhost:5000',
-			changeOrigin: true,
-		})
-	);
+	// // Development
+	// app.use(
+	// 	'/api',
+	// 	proxy({
+	// 		target: 'http://localhost:5000',
+	// 		changeOrigin: true,
+	// 	})
+	// );
 };
