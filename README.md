@@ -2,7 +2,7 @@
 
 <a href="https://frontend-engineer-challenge.netlify.app/">Live Demo</a>
 
-<h3>Description</a>
+<h3>Description</h3>
 <div>Fetch the most recent tweets about a specified stock ticker using the StockTwits API</div>
 
 <h3>Tech Stack</h3>
