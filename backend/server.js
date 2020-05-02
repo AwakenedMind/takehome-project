@@ -31,11 +31,6 @@ router.get('/api/tweets:id', async (req, res) => {
 	}
 });
 
-// Listen for server startup
-app.listen(port, () => {
-	console.log(`Server running at port ` + port);
-});
-
 // Serverless middleware
 app.use('/.netlify/functions/server', router);
 
