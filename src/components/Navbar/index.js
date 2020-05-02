@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Start of Navbar
-export default function Navbar({ handleSymbolChange, handleEnter, symbol }) {
+export default function Navbar({ handleInputChange, handlePressEnter, input }) {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -191,7 +191,7 @@ export default function Navbar({ handleSymbolChange, handleEnter, symbol }) {
 					<Typography className={classes.title} variant="h6" noWrap>
 						ORBIS
 					</Typography>
-					<form onSubmit={handleEnter}>
+					<form onSubmit={handlePressEnter}>
 						<div className={classes.search}>
 							<div className={classes.searchIcon}>
 								<SearchIcon />
@@ -203,8 +203,8 @@ export default function Navbar({ handleSymbolChange, handleEnter, symbol }) {
 									input: classes.inputInput,
 								}}
 								inputProps={{ 'aria-label': 'search' }}
-								onChange={handleSymbolChange}
-								value={symbol}
+								onChange={handleInputChange}
+								value={input}
 							/>
 						</div>
 					</form>
