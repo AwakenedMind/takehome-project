@@ -20,9 +20,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Chips = ({ list, handleRemoveStock, numTweets }) => {
+const Chips = ({ handleRemoveStock, numTweets, list }) => {
 	const classes = useStyles();
-	const isList = list && list.length > 0;
 
 	const getTweetCount = (chip) => {
 		let numFound = 0;
@@ -34,27 +33,24 @@ const Chips = ({ list, handleRemoveStock, numTweets }) => {
 
 		return numFound;
 	};
+	console.log('numTweets' + numTweets);
 
-	return (
-		<React.Fragment>
-			{isList && (
-				<div className={classes.root}>
-					{list.map((chip) => (
-						<Chip
-							key={chip}
-							variant="outlined"
-							size="small"
-							label={`${chip} ${getTweetCount(chip)}`}
-							clickable
-							color="secondary"
-							onClick={() => handleRemoveStock(chip)}
-							icon={<CloseIcon />}
-						/>
-					))}
-				</div>
-			)}
-		</React.Fragment>
-	);
+	return list.length > 0 && numTweets.length > 0 ? (
+		<div className={classes.root}>
+			{list.map((chip, idx) => (
+				<Chip
+					key={`${chip} ${idx}`}
+					variant="outlined"
+					size="small"
+					label={`${chip} ${getTweetCount(chip)}`}
+					clickable
+					color="secondary"
+					onClick={() => handleRemoveStock(chip)}
+					icon={<CloseIcon />}
+				/>
+			))}
+		</div>
+	) : null;
 };
 
 export default Chips;
