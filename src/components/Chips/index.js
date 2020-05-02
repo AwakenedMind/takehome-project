@@ -33,7 +33,6 @@ const Chips = ({ handleRemoveStock, numTweets, list }) => {
 
 		return numFound;
 	};
-	console.log('numTweets' + numTweets);
 
 	return list.length > 0 && numTweets.length > 0 ? (
 		<div className={classes.root}>
