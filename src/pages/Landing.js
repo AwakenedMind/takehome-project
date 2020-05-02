@@ -12,6 +12,12 @@ const Landing = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [numTweets, setNumTweets] = useState([]);
 
+	// helpers
+	let noTweetsExist = tweets.length < 1;
+	let tweetsExist = tweets.length > 0;
+	let listExists = list.length > 0;
+	let removeEmptyStrings = (s) => s.filter((el) => el != null);
+
 	// alert if any characters are not letters or a comma
 	const handleInputChange = (e) => {
 		e.target.value.match(/^[a-zA-Z, \s \b]+$/) || e.target.value.length < 1
@@ -68,13 +74,11 @@ const Landing = () => {
 
 		// Input possibly has multiple symbols
 		if (input.includes(',')) {
-			// create a new array after doing regex tests beforehand
+			// a strong regex could be applied would have to additional research/testing
 			splitSymbols = Array.from(
 				new Set(input.trim().split(',').join('').trim().split(' '))
 			);
-
-			// filter out empty strings
-			splitSymbols = splitSymbols.filter((el) => el != null);
+			splitSymbols = removeEmptyStrings(splitSymbols);
 		}
 		// Invoked if multiple symbols were found
 		if (splitSymbols.length > 0) {
@@ -82,7 +86,8 @@ const Landing = () => {
 			splitSymbols = Array.from(new Set(splitSymbols));
 
 			// filter out empty strings
-			splitSymbols = splitSymbols.filter((el) => el != null);
+			splitSymbols = removeEmptyStrings(splitSymbols);
+			// splitSymbols = splitSymbols.filter((el) => el != null);
 
 			handleFetchTweets(splitSymbols.join(), splitSymbols);
 		} else {
@@ -90,15 +95,7 @@ const Landing = () => {
 		}
 	};
 
-	// Filter the current tweets with the new tweets by id to remove duplicates
-	const filterTweetsById = (prev, cur) => {
-		const filtered = cur.filter((a) => {
-			return prev.includes(a.id);
-		});
-		return filtered;
-	};
-
-	// Fetch new 30 tweets from StockTwits
+	// Fetch tweets from StockTwits
 	const handleFetchTweets = async (string = list.join(), sym) => {
 		setIsLoading(true);
 		try {
@@ -106,14 +103,13 @@ const Landing = () => {
 				`/.netlify/functions/server/api/tweets${string}`
 			);
 
-			if (list.length > 0) {
-				let newMessages = filterTweetsById(tweets, res.data.messages);
-
-				// If no new messages then just return
-				if (newMessages.length > 0)
-					setTweets((prevTweets) => [newMessages, ...prevTweets]);
+			// If a previous list exist lets filter for duplicates and sort by date
+			if (listExists) {
+				setTweets((prevTweets) =>
+					handleCleanTweets(prevTweets, res.data.messages)
+				);
 			} else {
-				// Ran during first fetch
+				// Run during first fetch
 				setTweets((prevTweets) => [...res.data.messages, ...prevTweets]);
 			}
 
@@ -130,8 +126,21 @@ const Landing = () => {
 		}
 	};
 
+	// 1. combine old tweets with new tweets
+	// 2. remove duplicate tweets by comparing id's
+	// 3. sort the array by Date
+	const handleCleanTweets = (prevTweets, newTweets) => {
+		return [...newTweets, ...prevTweets]
+			.reduce((acc, cur) => {
+				return !acc.find((x) => x.id === cur.id) ? [...acc, ...[cur]] : acc;
+			}, [])
+			.sort((a, b) => {
+				return new Date(b.created_at) - new Date(a.created_at);
+			});
+	};
+
 	// Filter tweets by symbol.id to update tweet count
-	const handleCleanTweets = (currentTicker) => {
+	const handleCleanTweetsNum = (currentTicker) => {
 		setTweets((prevTweets) =>
 			prevTweets.filter((t) =>
 				t.symbols.every((x) => x.symbol !== currentTicker)
@@ -141,9 +150,9 @@ const Landing = () => {
 
 	// Remove the selected stock symbol the user clicked
 	const handleRemoveStock = (currentTicker) => {
-		if (tweets.length < 1) return;
+		if (noTweetsExist) return;
 
-		handleCleanTweets(currentTicker);
+		handleCleanTweetsNum(currentTicker);
 
 		// Update the list in state
 		setList((prevList) =>
@@ -153,7 +162,7 @@ const Landing = () => {
 
 	// Update the number of tweets per symbol
 	const getNumTweets = () => {
-		if (tweets.length < 1) return;
+		if (noTweetsExist) return;
 
 		let numTweets = tweets
 			.map((a) => a.symbols)
@@ -163,14 +172,14 @@ const Landing = () => {
 		setNumTweets(numTweets);
 	};
 
-	// Update number of tweets per symbol every time tweets arr is updated
+	// Update number of tweets per symbol every time tweets are added/removed
 	useEffect(() => {
-		tweets.length > 0 && getNumTweets();
+		tweetsExist && getNumTweets();
 	}, [tweets]);
 
 	// Fetch new tweets every 30s using the symbols in list
 	useInterval(() => {
-		tweets.length > 0 && list.length > 0 && handleFetchTweets();
+		tweetsExist && listExists && handleFetchTweets();
 	}, 30000);
 
 	return (
