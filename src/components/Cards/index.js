@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -28,10 +28,9 @@ const Cards = ({ tweets, isLoading }) => {
 	return (
 		<List className={classes.root}>
 			{isLoading && <Spinner />}
-			{!isLoading &&
-				tweetsExist &&
-				tweets.map((tweet) => (
-					<ListItem alignItems="flex-start" key={tweet.user.id}>
+			{tweetsExist &&
+				tweets.map((tweet, idx) => (
+					<ListItem alignItems="flex-start" key={`${tweet.id}-${idx}`}>
 						<ListItemAvatar>
 							<Avatar alt="Remy Sharp" src={tweet.user.avatar_url_ssl} />
 						</ListItemAvatar>

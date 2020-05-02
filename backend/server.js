@@ -20,7 +20,7 @@ app.use(cors());
     @access     Public
 */
 router.get('/api/tweets:id', async (req, res) => {
-	const params = { symbols: req.params.id, limit: 10 };
+	const params = { symbols: req.params.id, limit: 30 };
 	const url = `${SYMBOLS_STREAM_URL}.json?access_token=${process.env.TOKEN}
 `;
 	try {
