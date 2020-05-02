@@ -19,9 +19,9 @@ const Main = ({ list, tweets, handleRemoveStock, isLoading, numTweets }) => {
 			>
 				<Typography component="div" />
 				<Chips
-					list={list}
 					handleRemoveStock={handleRemoveStock}
 					numTweets={numTweets}
+					list={list}
 				/>
 				<Cards tweets={tweets} isLoading={isLoading} />
 			</Container>
